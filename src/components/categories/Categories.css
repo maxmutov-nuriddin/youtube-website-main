@@ -1,0 +1,59 @@
+.categories-bar {
+  display: flex;
+  overflow-x: auto;
+  padding: 12px 24px;
+  background-color: #fff;
+  position: sticky;
+  top: 56px; /* Below header */
+  z-index: 10;
+  gap: 12px;
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+  border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+}
+
+.categories-bar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.category-chip {
+  padding: 6px 12px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f0f0f;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.category-chip:hover {
+  background-color: #e5e5e5;
+}
+
+.category-chip.active {
+  background-color: #0f0f0f;
+  color: #fff;
+}
+
+/* Dark mode support if needed later */
+@media (prefers-color-scheme: dark) {
+  /* .categories-bar {
+    background-color: #0f0f0f;
+    border-bottom: 1px solid #3f3f3f;
+  }
+  .category-chip {
+    background-color: #272727;
+    color: #f1f1f1;
+  }
+  .category-chip:hover {
+    background-color: #3f3f3f;
+  }
+  .category-chip.active {
+    background-color: #f1f1f1;
+    color: #0f0f0f;
+  } */
+}

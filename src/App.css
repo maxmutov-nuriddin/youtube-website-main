@@ -1,0 +1,293 @@
+
+/* Reset & Base */
+:root {
+    --header-height: 56px;
+    --sidebar-width: 240px;
+    --sidebar-width-collapsed: 72px;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #0f0f0f;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+  
+  /* App Layout Grid */
+  .app-layout {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "nav    main";
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    height: 100vh;
+  }
+  
+  /* Header */
+  .app-header {
+    grid-area: header;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background-color: #fff;
+    z-index: 100;
+  }
+  
+  /* Sidebar */
+  .app-sidebar {
+    grid-area: nav;
+    position: fixed;
+    left: 0;
+    top: var(--header-height);
+    bottom: 0;
+    width: var(--sidebar-width);
+    background-color: #fff;
+    overflow-y: hidden;
+    transition: transform 0.2s ease, width 0.2s ease;
+    z-index: 99;
+  }
+  
+  .app-sidebar:hover {
+      overflow-y: auto;
+  }
+  /* Custom Scrollbar for Sidebar */
+  .app-sidebar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .app-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 4px;
+  }
+  .app-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Main Content */
+  .app-main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--header-height); /* push down by header height */
+    /* If sidebar is fixed, we might need margin-left instead of grid unless we use grid properly for content */
+    /* Actually with grid-template-columns, we don't need margin-left if the grid tracks are handling it. 
+       But since header/sidebar are fixed, we DO need margins/padding. */
+    margin-left: var(--sidebar-width); 
+    width: calc(100% - var(--sidebar-width));
+    transition: margin-left 0.2s ease, width 0.2s ease;
+  }
+  
+  .main-content {
+      padding: 0 16px;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 1800px; /* Limit huge screens */
+  }
+  
+  /* Collapsed Sidebar State (if logical) */
+  .app-layout.sidebar-closed .app-sidebar {
+      /* transform: translateX(-100%); */ 
+      /* YouTube behavior: Mini Sidebar on desktop */
+      width: var(--sidebar-width-collapsed);
+  }
+  
+  .app-layout.sidebar-closed .app-main {
+      margin-left: var(--sidebar-width-collapsed);
+      width: calc(100% - var(--sidebar-width-collapsed));
+  }
+  
+  
+  /* --- RESPONSIVE BREAKPOINTS --- */
+  
+  /* Tablet (max-width: 1024px) */
+  @media (max-width: 1024px) {
+      .app-layout {
+          grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+      }
+      .app-sidebar {
+          width: var(--sidebar-width-collapsed);
+      }
+      .app-main {
+          margin-left: var(--sidebar-width-collapsed);
+          width: calc(100% - var(--sidebar-width-collapsed));
+      }
+      
+      /* If "sidebar-open" is true here, maybe we show an overlay drawer? 
+         For now, let's treat closed as mini-sidebar. */
+  }
+  
+  /* Mobile (max-width: 768px) */
+  @media (max-width: 768px) {
+      .app-layout {
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+      }
+  
+      /* SIDEBAR AS DRAWER - Hidden by default, shown when open */
+      .app-sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: 240px;
+          z-index: 1200; /* Above overlay */
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+          display: block; /* Ensure it CAN be shown */
+      }
+      
+      .app-layout.sidebar-open .app-sidebar {
+          transform: translateX(0);
+      }
+
+      /* When sidebar is closed on mobile, it should effectively be gone */
+      
+      /* Reset Main Content to full width */
+      .app-main {
+          margin-left: 0 !important;
+          width: 100% !important;
+          flex: 1; /* Take remaining height */
+          margin-top: var(--header-height);
+          padding-bottom: 50px; /* Space for bottom nav */
+      }
+      
+      /* Overlay Logic */
+      .sidebar-overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.5);
+          z-index: 1100;
+      }
+      
+      .app-layout.sidebar-open .sidebar-overlay {
+          display: block;
+      }
+
+      /* Adjust Header to be sticky/fixed properly */
+      .app-header {
+          width: 100%;
+          position: fixed;
+          z-index: 1100;
+      }
+  }
+  
+  /* Small Mobile (max-width: 480px) */
+  @media (max-width: 480px) {
+      .main-content {
+          padding: 0 0 60px 0; /* Add bottom padding for BottomNav */
+      }
+      
+      /* Adjust Categories Bar */
+      .categories-bar {
+          padding: 8px 12px;
+      }
+  }
+  
+  /* --- Loader --- */
+  .loader {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #FFF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  .loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #FF0000 transparent;
+  }
+  
+  @keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .load {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Sidebar Collapsed State Logic */
+  .app-layout.sidebar-closed .link-text, 
+  .app-layout.sidebar-closed .headerLeft__titles {
+      display: none;
+  }
+  
+  .app-layout.sidebar-closed .headerLeft__icon {
+      margin-right: 0 !important; /* Center icons */
+  }
+  
+  .app-layout.sidebar-closed .headerLeft__menu-item {
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+  }
+  
+  .app-layout.sidebar-closed .headerLeft__link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px; /* Optional: mini text */
+      gap: 4px;
+  }
+
+  /* Hide separators and subscriptions in collapsed mode (optional, YouTube does this) */
+  .app-layout.sidebar-closed .headerLeft__separator,
+  .app-layout.sidebar-closed .headerLeft__menu:nth-child(n+3) { /* Rough selection for subs list */
+       display: none;
+  }
+  
+  /* Mobile Sidebar Header */
+  .sidebar-mobile-header {
+      display: none; /* Hidden by default */
+  }
+  
+  @media (max-width: 768px) {
+      .sidebar-mobile-header {
+          display: flex; /* Flex is set in inline style/class but ensure logic aligns */
+          min-height: 56px; /* Match header height */
+          border-bottom: 1px solid #e5e5e5;
+          margin-bottom: 8px;
+      }
+      
+      .headerLeft {
+          padding-top: 0 !important; /* Reset padding since we have header */
+      }
+  }

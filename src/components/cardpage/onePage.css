@@ -1,0 +1,168 @@
+/* Main Video Container */
+.one__page {
+    display: flex;
+    flex-direction: row; /* Desktop defaults */
+    gap: 24px;
+    padding: 24px 0;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Left Content (Video + Comments) */
+.one__page-content {
+    flex: 1; /* Takes available space */
+    min-width: 0; /* Prevent overflow */
+}
+
+/* Right Sidebar (Recommendations) */
+.box__card {
+    width: 350px; /* Fixed width sidebar likes YouTube */
+    flex-shrink: 0;
+}
+
+/* Video Player */
+.one__page-iframe {
+    width: 100%;
+    aspect-ratio: 16/9; /* Modern replacement for fixed heights */
+    height: auto;
+    border-radius: 12px;
+    border: none;
+    background-color: #000;
+}
+
+/* Video Info */
+.one__page-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 12px 0 8px 0;
+    line-height: 28px;
+    word-break: break-word;
+}
+
+.one__page-author-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.one__page-thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.one__page-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap; /* allow wrapping on small screens */
+}
+
+/* Buttons */
+.one__page-subscribe-button {
+    background-color: #0f0f0f;
+    color: #fff !important;
+    padding: 8px 16px;
+    border-radius: 18px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+.one__page-subscribe-button:hover {
+    background-color: #272727;
+}
+
+.one__page-share-button,
+.one__page-download-button,
+.one__page-like-button,
+.one__page-dislike-button {
+    background-color: #f2f2f2 !important;
+    color: #0f0f0f !important;
+    padding: 8px 16px;
+    border-radius: 18px;
+    border: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.one__page-share-button:hover {
+    background-color: #e5e5e5;
+}
+
+/* Comments Section */
+.comment__inp {
+    width: 100%;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    outline: none;
+}
+.comment__inp:focus {
+    border-bottom: 2px solid #0f0f0f;
+}
+
+.commetn__img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+/* --- RESPONSIVE --- */
+
+/* Tablet & Smaller Desktop */
+@media (max-width: 1024px) {
+    .one__page {
+        flex-direction: column; /* Stack video and recommendations */
+    }
+    
+    .box__card {
+        width: 100%; /* Recommendations take full width */
+    }
+    
+    .one__page-content {
+        margin-right: 0;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .one__page {
+        padding: 0;
+        margin-top: 10px;
+    }
+    
+    .one__page-iframe {
+        border-radius: 0; /* YouTube removes radius on mobile */
+    }
+    
+    .one__page-details {
+        padding: 12px;
+    }
+    
+    .one__page-title {
+        font-size: 18px;
+    }
+    
+    /* Layout actions vertically if needed or scroll */
+    .one__page-box { 
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .one__page-actions {
+        width: 100%;
+        overflow-x: auto; /* Scrollable actions */
+        padding-bottom: 8px; 
+    }
+    
+    .one__page-author-info {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
