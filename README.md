@@ -1,20 +1,20 @@
+
+---
+
+## 📁 youtube-website-main — README.md
+
+```md
 # YouTube Website Clone
 
-A UI clone of YouTube homepage.
-
-## 📺 About
-Built to practice layout, positioning, and UI replication.
+UI clone of YouTube homepage built with React.
 
 ## 🛠 Tech Stack
+- React
+- JavaScript
 - HTML
 - CSS
-- JavaScript
 
-## 🎯 Purpose
-Improve frontend layout and styling skills.
-
-## ▶️ Run
-Open `index.html` in browser.
-
-## 👤 Author
-Nuriddin
+## ▶️ Run Locally
+```bash
+npm install
+npm start
